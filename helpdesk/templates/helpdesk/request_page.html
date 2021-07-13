@@ -1,0 +1,56 @@
+{% extends 'helpdesk/base.html' %}
+{% block container %}
+
+    <main class="container mt-3">
+        <!-- HERO -->
+        <div class="row mt-5">
+            <div class="col-10 col-md-6 offset-1 offset-md-3">
+                <div class="card mb-3">
+                    <div class="card-body text-center pt-5">
+                        <h2 class="h3 card-title mt-2 mb-4">Ну все, пиздец</h2>
+                        <p class="my-2">Заявка № {{ request_id }}</p>
+                        <p class="my-2">Создатель: Игорь Хуигорь</p>
+                        <p class="my-2">Статус заявки: Новая</p>
+                    </div>
+                    <hr/>
+                    <div class="card-body mx-5">
+                        <h5>Все поломалось, пиздец, что делать не знаю, спасите, о мог бог, спаси
+                            сохрнани. Что делаааааааааааааааааааааааааааааааааааааааааааааааааааааааааать</h5>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-outline-danger float-right">
+                    Закрыть заявку
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <div class="container mt-5">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-8">
+                <div class="headings d-flex justify-content-between align-items-center mb-3">
+                    <h5>Комментарии (4):</h5>
+                </div>
+                <div class="card p-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="user d-flex flex-row align-items-center"><span><small
+                                class="font-weight-bold text-primary">Игорь Пигорь:</small> <small
+                                class="font-weight-bold">Hmm, This poster looks cool</small></span>
+                        </div>
+                        <small>2 days ago</small>
+                    </div>
+                    <div class="action d-flex justify-content-between mt-2 align-items-center">
+                        <button class="btn btn-outline-danger btn-sm"><small>Удалить</small></button>
+                        <div class="icons align-items-center"><i class="fa fa-star text-warning"></i> <i
+                                class="fa fa-check-circle-o check-icon"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <br>
+
+
+{% endblock %}
