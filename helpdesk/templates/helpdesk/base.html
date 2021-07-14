@@ -26,12 +26,16 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'create' %}">Создать заявку</a>
                 </li>
+                {% if user_is_support or user_is_super_support %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'requests' %}">Все заявки</a>
                 </li>
+                {% endif %}
+                {% if user_is_super_support %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'requests' %}">Новые завяки</a>
                 </li>
+                {% endif %}
             </ul>
         </div>
         {% if request.user.is_active %}
