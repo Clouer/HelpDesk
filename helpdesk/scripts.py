@@ -5,3 +5,11 @@ def register_user(model, cleaned_form):
         first_name=cleaned_form['first_name'],
         last_name=cleaned_form['last_name']
     )
+
+
+def create_request(model, cleaned_data):
+    model.objects.create(
+        title=cleaned_data['title'],
+        description=cleaned_data['description'],
+        owner=cleaned_data['owner']
+    )

@@ -3,9 +3,9 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views import View
 
-from helpdesk.forms import SignUpForm
-from helpdesk.models import User
-from helpdesk.scripts import register_user
+from helpdesk.forms import SignUpForm, CreateRequestForm
+from helpdesk.models import User, Request
+from helpdesk.scripts import register_user, create_request
 
 
 class SignInView(LoginView):
@@ -47,4 +47,14 @@ class RequestPageView(View):
 
 class CreateRequestView(View):
     def get(self, request):
-        return render(request, 'helpdesk/create_request.html')
+        form = CreateRequestForm()
+        return render(request, 'helpdesk/create_request.html', context={
+            'form': form
+        })
+
+    def post(self, request):
+        form = CreateRequestForm(request.POST)
+        if form.is_valid():
+            cleaned_form = form.cleaned_data
+            create_request(Request, cleaned_form)
+        return redirect(reverse('main'))
