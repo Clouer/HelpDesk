@@ -21,22 +21,22 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 {% if request.user.is_active %}
-                <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'requests' %}">Мои заявки</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'create' %}">Создать заявку</a>
-                </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'requests' %}">Мои заявки</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'create' %}">Создать заявку</a>
+                    </li>
                 {% endif %}
                 {% if request.user.is_support or request.user.is_super_support %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'requests' %}">Все заявки</a>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'requests' %}">Все заявки</a>
+                    </li>
                 {% endif %}
                 {% if request.user.is_super_support %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'requests' %}">Новые завяки</a>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'requests' %}">Новые завяки</a>
+                    </li>
                 {% endif %}
             </ul>
         </div>

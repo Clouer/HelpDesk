@@ -35,11 +35,15 @@ class MainView(View):
 
 class RequestsListView(View):
     def get(self, request):
+        if request.user.is_anonymous:
+            return redirect(reverse('main'))
         return render(request, 'helpdesk/requests_list.html')
 
 
 class RequestPageView(View):
     def get(self, request, request_id):
+        if request.user.is_anonymous:
+            return redirect(reverse('main'))
         request_object = get_object_or_404(Request, pk=request_id)
         return render(request, 'helpdesk/request_page.html', context={
             'request_object': request_object
@@ -48,6 +52,8 @@ class RequestPageView(View):
 
 class CreateRequestView(View):
     def get(self, request):
+        if request.user.is_anonymous:
+            return redirect(reverse('main'))
         form = CreateRequestForm()
         return render(request, 'helpdesk/create_request.html', context={
             'form': form
