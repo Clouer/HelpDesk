@@ -7,15 +7,14 @@
             <div class="col-10 col-md-6 offset-1 offset-md-3">
                 <div class="card mb-3">
                     <div class="card-body text-center pt-5">
-                        <h2 class="h3 card-title mt-2 mb-4">Ну все, пиздец</h2>
-                        <p class="my-2">Заявка № {{ request_id }}</p>
-                        <p class="my-2">Создатель: Игорь Хуигорь</p>
+                        <h2 class="h3 card-title mt-2 mb-4">{{ request_object.title }}</h2>
+                        <p class="my-2">Заявка № {{ request_object.id|stringformat:"04d" }}</p>
+                        <p class="my-2">Создатель: {{ request.user.first_name }} {{ request.user.last_name }}</p>
                         <p class="my-2">Статус заявки: Новая</p>
                     </div>
                     <hr/>
                     <div class="card-body mx-5">
-                        <h5>Все поломалось, пиздец, что делать не знаю, спасите, о мог бог, спаси
-                            сохрнани. Что делаааааааааааааааааааааааааааааааааааааааааааааааааааааааааать</h5>
+                        <h5>{{ request_object.description }}</h5>
                     </div>
                 </div>
                 <button type="button" class="btn btn-outline-danger float-right">
@@ -29,7 +28,7 @@
         <div class="row d-flex justify-content-center">
             <div class="col-md-8">
                 <div class="headings d-flex justify-content-between align-items-center mb-3">
-                    <h5>Комментарии (4):</h5>
+                    <h5>Комментарии ({{ request_object.comments.count }})</h5>
                 </div>
                 <div class="card p-3">
                     <div class="d-flex justify-content-between align-items-center">

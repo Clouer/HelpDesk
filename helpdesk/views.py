@@ -1,5 +1,5 @@
 from django.contrib.auth.views import LoginView
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.views import View
 
@@ -39,9 +39,10 @@ class RequestsListView(View):
 
 
 class RequestPageView(View):
-    def get(self, request, id):
+    def get(self, request, request_id):
+        request_object = get_object_or_404(Request, pk=request_id)
         return render(request, 'helpdesk/request_page.html', context={
-            'request_id': f'000{id}'
+            'request_object': request_object
         })
 
 

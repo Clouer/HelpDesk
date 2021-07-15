@@ -9,6 +9,6 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     path('register/', views.SignUpView.as_view(), name='register'),
     path('requests/', views.RequestsListView.as_view(), name='requests'),
-    path('requests/<int:id>', views.RequestPageView.as_view()),
+    path('requests/<int:request_id>/', views.RequestPageView.as_view()),
     path('requests/create', views.CreateRequestView.as_view(), name='create')
 ]

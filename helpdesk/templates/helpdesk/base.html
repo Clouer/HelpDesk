@@ -20,18 +20,20 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
+                {% if request.user.is_active %}
                 <li class="nav-item active">
                     <a class="nav-link" href="{% url 'requests' %}">Мои заявки</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'create' %}">Создать заявку</a>
                 </li>
-                {% if user_is_support or user_is_super_support %}
+                {% endif %}
+                {% if request.user.is_support or request.user.is_super_support %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'requests' %}">Все заявки</a>
                 </li>
                 {% endif %}
-                {% if user_is_super_support %}
+                {% if request.user.is_super_support %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'requests' %}">Новые завяки</a>
                 </li>
@@ -39,7 +41,7 @@
             </ul>
         </div>
         {% if request.user.is_active %}
-            <div class="mr-4">{{ request.user }}</div>
+            <div class="mr-4">{{ request.user.first_name }} {{ request.user.last_name }}</div>
             <span class="navbar-text d-sm-none d-lg-block">
                 <a href="{% url 'logout' %}">Выход</a>
         </span>

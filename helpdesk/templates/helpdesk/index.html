@@ -3,86 +3,42 @@
 
     <h1 class="h1 text-center mx-auto mt-4 py-5"><strong>Техническая поддержка <br>HelpDesk</strong></h1>
 
-    <h2 class="h5 text-center mb-5">Ваши последние заявки</h2>
+    {% if request.user.is_active %}
+        <h2 class="h5 text-center mb-5">Ваши последние заявки</h2>
 
 
-    <!-- Block started -->
-    <div class="card mb-4" style="max-width: 50%; margin: 0 auto;">
-        <div class="card-body">
-            <div class="card ">
-                <div class="card-header">
-                    <button type="button" class="btn btn-link">
-                        Заявка номер: 0001
-                    </button>
-                </div>
+        {% for request in request.user.requests.all %}
+            <!-- Block started -->
+            <div class="card mb-4" style="max-width: 50%; margin: 0 auto;">
                 <div class="card-body">
-                    <h5 class="card-title">Не работает ничего</h5>
-                    <p class="card-text">Спаси сохрани все горит ебать</p>
-                    <button type="button" class="btn btn-secondary mr-1" disabled>
-                        Статус заявки: новая
-                    </button>
-                    <button type="button" class="btn btn-dark mx-1" disabled>
-                        Сообщения: 2
-                    </button>
-                    <button type="button" class="btn btn-outline-danger float-right">
-                        Закрыть заявку
-                    </button>
+                    <div class="card ">
+                        <div class="card-header">
+                            <a href="/requests/{{ request.id }}/" type="button" class="btn btn-link">
+                                Заявка номер: {{ request.id|stringformat:"04d" }}
+                            </a>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ request.title }}</h5>
+                            <p class="card-text">{{ request.description }}</p>
+                            <button type="button" class="btn btn-secondary mr-1" disabled>
+                                Статус заявки: новая
+                            </button>
+                            <button type="button" class="btn btn-dark mx-1" disabled>
+                                Сообщения: {{ request.comments.count }}
+                            </button>
+                            <button type="button" class="btn btn-outline-danger float-right">
+                                Закрыть заявку
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <!-- Block Finished -->
-
-    <!-- Can remove -->
-    <div class="card mb-4" style="max-width: 50%; margin: 0 auto;">
-        <div class="card-body">
-            <div class="card">
-                <div class="card-header">
-                    <button type="button" class="btn btn-link">
-                        Заявка номер: 0002
-                    </button>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">Все пиздец</h5>
-                    <p class="card-text">Все пропало</p>
-                    <button type="button" class="btn btn-secondary mr-1" disabled>
-                        Статус заявки: закрыта
-                    </button>
-                    <button type="button" class="btn btn-dark mx-1" disabled>
-                        Сообщения: 72
-                    </button>
-                    <button type="button" class="btn btn-outline-danger float-right">
-                        Закрыть заявку
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="card mb-4" style="max-width: 50%; margin: 0 auto;">
-        <div class="card-body">
-            <div class="card">
-                <div class="card-header">
-                    <button type="button" class="btn btn-link">
-                        Заявка номер: 0003
-                    </button>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">а?</h5>
-                    <p class="card-text">че</p>
-                    <button type="button" class="btn btn-secondary mr-1" disabled>
-                        Статус заявки: просмотрена
-                    </button>
-                    <button type="button" class="btn btn-dark mx-1" disabled>
-                        Сообщения: 0
-                    </button>
-                    <button type="button" class="btn btn-outline-danger float-right">
-                        Закрыть заявку
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Can remove -->
+            <!-- Block Finished -->
+        {% endfor %}
+    {% else %}
+        <h2 class="h5 text-center my-3">Чтобы пользоваться системой, необходимо <a href="{% url 'login' %}">войти</a> в
+            систему.</h2>
+        <h2 class="h6 mt-2 text-center">Нет аккаунта? <a href="{% url 'register' %}">Зарегистрируйтесь!</a></h2>
+    {% endif %}
 
 {% endblock %}
