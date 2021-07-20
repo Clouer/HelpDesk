@@ -3,7 +3,12 @@
 
     <h1 class="h4 text-center my-5">Ваши заявки</h1>
 
-    {% for req in request.user.requests.all %}
+    <div class="d-flex justify-content-center mb-4">
+        <a href="#" class="btn btn-light active" role="button" data-mdb-toggle="button">Активные заявки</a>
+        <a href="#" class="btn btn-light" role="button" data-mdb-toggle="button" aria-pressed="true">Закрытые заявки</a>
+    </div>
+
+    {% for req in active_requests %}
         <!-- Block started -->
         <div class="card mb-4" style="max-width: 50%; margin: 0 auto;">
             <div class="card-body">
@@ -14,23 +19,24 @@
                         </a>
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">{{ req.title }}</h5>
-                        <p class="card-text">{{ req.description }}</p>
-                        <button type="button" class="btn btn-secondary mr-1" disabled>
-                            Статус заявки: новая
-                        </button>
-                        <button type="button" class="btn btn-dark mx-1" disabled>
-                            Сообщения: {{ req.comments.count }}
-                        </button>
-                        <button type="button" class="btn btn-outline-danger float-right">
-                            Закрыть заявку
-                        </button>
+                        <form method="post">
+                            {% csrf_token %}
+                            <h5 class="card-title">{{ req.title }}</h5>
+                            <p class="card-text">{{ req.description }}</p>
+                            <button type="button" class="btn btn-secondary mr-1" disabled>
+                                Статус заявки: {{ req.get_status_display }}
+                            </button>
+                            <button type="button" class="btn btn-dark mx-1" disabled>
+                                Сообщения: {{ req.comments.count }}
+                            </button>
+                            <input type="submit" class="btn btn-outline-danger float-right" value="Закрыть заявку">
+                            <input hidden name="request_id" value={{ req.id }}>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
         <!-- Block Finished -->
     {% endfor %}
-
 
 {% endblock %}

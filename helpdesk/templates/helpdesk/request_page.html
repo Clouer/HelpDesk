@@ -10,7 +10,7 @@
                         <h2 class="h3 card-title mt-2 mb-4">{{ request_object.title }}</h2>
                         <p class="my-2">Заявка № {{ request_object.id|stringformat:"04d" }}</p>
                         <p class="my-2">Создатель: {{ request.user.first_name }} {{ request.user.last_name }}</p>
-                        <p class="my-2">Статус заявки: Новая</p>
+                        <p class="my-2">Статус заявки: {{ request_object.get_status_display }}</p>
                     </div>
                     <hr/>
                     <div class="card-body mx-5">

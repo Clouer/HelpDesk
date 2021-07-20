@@ -5,7 +5,7 @@ from django.views import View
 
 from helpdesk.forms import SignUpForm, CreateRequestForm
 from helpdesk.models import User, Request
-from helpdesk.scripts import register_user, create_request
+from helpdesk.scripts import register_user, create_request, close_request
 
 
 class SignInView(LoginView):
@@ -30,20 +30,34 @@ class SignUpView(View):
 
 class MainView(View):
     def get(self, request):
+        if request.user.is_anonymous:
+            return redirect(reverse('login'))
         return render(request, 'helpdesk/index.html')
+
+    def post(self, request):
+        close_request(Request, request.POST['request_id'])
+        return redirect(reverse('main'))
 
 
 class RequestsListView(View):
     def get(self, request):
         if request.user.is_anonymous:
-            return redirect(reverse('main'))
-        return render(request, 'helpdesk/requests_list.html')
+            return redirect(reverse('login'))
+        active_requests = Request.objects.filter(owner=request.user.id, status__in=['new', 'in_work'])
+        closed_request = Request.objects.filter(owner=request.user.id, status='closed')
+        return render(request, 'helpdesk/requests_list.html', context={
+            'active_requests': active_requests
+        })
+
+    def post(self, request):
+        close_request(Request, request.POST['request_id'])
+        return redirect(reverse('requests'))
 
 
 class RequestPageView(View):
     def get(self, request, request_id):
         if request.user.is_anonymous:
-            return redirect(reverse('main'))
+            return redirect(reverse('login'))
         request_object = get_object_or_404(Request, pk=request_id)
         return render(request, 'helpdesk/request_page.html', context={
             'request_object': request_object
@@ -53,7 +67,7 @@ class RequestPageView(View):
 class CreateRequestView(View):
     def get(self, request):
         if request.user.is_anonymous:
-            return redirect(reverse('main'))
+            return redirect(reverse('login'))
         form = CreateRequestForm()
         return render(request, 'helpdesk/create_request.html', context={
             'form': form

@@ -13,3 +13,9 @@ def create_request(model, cleaned_data):
         description=cleaned_data['description'],
         owner=cleaned_data['owner']
     )
+
+
+def close_request(model, request_id):
+    request = model.objects.get(pk=request_id)
+    request.status = 'closed'
+    request.save()

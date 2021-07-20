@@ -8,6 +8,7 @@ django.setup()  # Всякие Django штуки импортим после с�
 from helpdesk.models import User, Request
 
 if __name__ == '__main__':
+    """
     User.objects.create_user(
         first_name='System',
         last_name='admin',
@@ -31,3 +32,4 @@ if __name__ == '__main__':
         password='support',
         is_support=True
     )
+    """
