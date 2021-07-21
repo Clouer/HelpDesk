@@ -1,7 +1,7 @@
 {% extends 'helpdesk/base.html' %}
 {% block container %}
 
-    <h1 class="h4 text-center my-5">Ваши заявки</h1>
+    <h1 class="h4 text-center my-5">Заявки ваших отделов</h1>
 
     <div class="d-flex justify-content-center mb-4">
         <form method="post">
@@ -56,9 +56,9 @@
             <!-- Block Finished -->
         {% endfor %}
     {% elif status == 'active_requests' %}
-        <h1 class="h5 text-center my-5">У вас нет активных заявок </h1>
+        <h1 class="h5 text-center my-5">В отделе нет активных заявок </h1>
     {% elif status == 'closed_requests' %}
-        <h1 class="h5 text-center my-5">У вас нет закрытых заявок </h1>
+        <h1 class="h5 text-center my-5">В отделе нет закрытых заявок </h1>
     {% endif %}
 
 {% endblock %}

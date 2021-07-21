@@ -1,0 +1,67 @@
+{% extends 'helpdesk/base.html' %}
+{% block container %}
+
+    <h1 class="h4 text-center my-5">Новые заявки</h1>
+
+    {% if new_requests %}
+        {% for req in new_requests %}
+            <!-- Block started -->
+            <div class="card mb-4" style="max-width: 50%; margin: 0 auto;">
+                <div class="card-body">
+                    <div class="card ">
+                        <div class="card-header">
+                            <form method="post" class="dropdown">
+                                {% csrf_token %}
+                                <a href="/requests/{{ req.id }}/" type="button" class="btn btn-link">
+                                    Заявка номер: {{ req.id|stringformat:"04d" }}
+                                </a>
+
+
+                                <div data-toggle="dropdown" class="btn btn-secondary dropdown-toggle float-right">Отделы
+                                    <b class="caret "></b></div>
+                                <div class="dropdown-menu p-3">
+
+                                    {% for department in departments %}
+                                        <!-- department -->
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="departments"
+                                                   value={{ department.id }}
+                                                           id="flexCheckDefault">
+                                            <label class="form-check-label"
+                                                   for="flexCheckDefault">{{ department.title }}</label>
+                                        </div>
+                                        <!-- department end -->
+                                    {% endfor %}
+                                    <input hidden name="request_id" value={{ req.id }}>
+                                    <input type="submit" class="btn btn-outline-danger mt-2" value="Добавить отделы">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="card-body">
+                            <form method="post" action="{% url 'close' %}">
+                                {% csrf_token %}
+                                <h5 class="card-title">{{ req.title }}</h5>
+                                <p class="card-text">{{ req.description }}</p>
+                                <button type="button" class="btn btn-secondary mr-1" disabled>
+                                    Статус заявки: {{ req.get_status_display }}
+                                </button>
+                                <button type="button" class="btn btn-dark mx-1" disabled>
+                                    Сообщения: {{ req.comments.count }}
+                                </button>
+                                <input type="submit" class="btn btn-outline-danger float-right"
+                                       value="Закрыть заявку">
+                                <input hidden name="request_id" value={{ req.id }}>
+                                <input hidden name="current_url" value={{ request.path }}>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Block Finished -->
+        {% endfor %}
+    {% else %}
+        <h1 class="h5 text-center my-5">Нет новых заявок</h1>
+    {% endif %}
+
+
+{% endblock %}

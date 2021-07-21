@@ -33,3 +33,7 @@ if __name__ == '__main__':
         is_support=True
     )
     """
+    user = User.objects.get(pk=1)
+    user_departments = user.departments.all()
+    department_requests = Request.objects.filter(departments__in=user_departments).distinct()
+    print(department_requests)

@@ -5,37 +5,43 @@
     {% if request.user.is_active %}
         <h2 class="h5 text-center mb-5">Ваши последние заявки</h2>
 
-
-        {% for request in request.user.requests.all %}
-            <!-- Block started -->
-            <div class="card mb-4" style="max-width: 50%; margin: 0 auto;">
-                <div class="card-body">
-                    <div class="card ">
-                        <div class="card-header">
-                            <a href="/requests/{{ request.id }}/" type="button" class="btn btn-link">
-                                Заявка номер: {{ request.id|stringformat:"04d" }}
-                            </a>
-                        </div>
-                        <div class="card-body">
-                            <form method="post">
-                                {% csrf_token %}
-                                <h5 class="card-title">{{ request.title }}</h5>
-                                <p class="card-text">{{ request.description }}</p>
-                                <button type="button" class="btn btn-secondary mr-1" disabled>
-                                    Статус заявки: {{ request.get_status_display }}
-                                </button>
-                                <button type="button" class="btn btn-dark mx-1" disabled>
-                                    Сообщения: {{ request.comments.count }}
-                                </button>
-                                <input type="submit" class="btn btn-outline-danger float-right" value="Закрыть заявку">
-                                <input hidden name="request_id" value={{ request.id }}>
-                            </form>
+        {% if request.user.requests.all %}
+            {% for request in request.user.requests.all %}
+                <!-- Block started -->
+                <div class="card mb-4" style="max-width: 50%; margin: 0 auto;">
+                    <div class="card-body">
+                        <div class="card ">
+                            <div class="card-header">
+                                <a href="/requests/{{ request.id }}/" type="button" class="btn btn-link">
+                                    Заявка номер: {{ request.id|stringformat:"04d" }}
+                                </a>
+                            </div>
+                            <div class="card-body">
+                                <form method="post" action="{% url 'close' %}">
+                                    {% csrf_token %}
+                                    <h5 class="card-title">{{ request.title }}</h5>
+                                    <p class="card-text">{{ request.description }}</p>
+                                    <button type="button" class="btn btn-secondary mr-1" disabled>
+                                        Статус заявки: {{ request.get_status_display }}
+                                    </button>
+                                    <button type="button" class="btn btn-dark mx-1" disabled>
+                                        Сообщения: {{ request.comments.count }}
+                                    </button>
+                                    <input type="submit" class="btn btn-outline-danger float-right"
+                                           value="Закрыть заявку">
+                                    <input hidden name="request_id" value={{ request.id }}>
+                                    <input hidden name="current_url" value={{ request.path }}>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- Block Finished -->
-        {% endfor %}
+                <!-- Block Finished -->
+            {% endfor %}
+        {% else %}
+            <h1 class="h5 text-center my-3">У вас нет актиных заявок. <a href="{% url 'create' %}">Создать?</a></h1>
+        {% endif %}
+
     {% else %}
         <h2 class="h5 text-center my-3">Чтобы пользоваться системой, необходимо <a href="{% url 'login' %}">войти</a> в
             систему.</h2>

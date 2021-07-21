@@ -9,17 +9,28 @@
                     <div class="card-body text-center pt-5">
                         <h2 class="h3 card-title mt-2 mb-4">{{ request_object.title }}</h2>
                         <p class="my-2">Заявка № {{ request_object.id|stringformat:"04d" }}</p>
-                        <p class="my-2">Создатель: {{ request.user.first_name }} {{ request.user.last_name }}</p>
+                        <p class="my-2">
+                            Создатель: {{ request_object.owner.first_name }} {{ request_object.owner.last_name }}</p>
                         <p class="my-2">Статус заявки: {{ request_object.get_status_display }}</p>
+                        {% if request_object.departments.all %}
+                            <p class="my-2">Отделы:
+                                {% for department in request_object.departments.all %}
+                                    {{ department.title }} {% endfor %}</p>
+                        {% endif %}
                     </div>
                     <hr/>
                     <div class="card-body mx-5">
                         <h5>{{ request_object.description }}</h5>
                     </div>
                 </div>
-                <button type="button" class="btn btn-outline-danger float-right">
-                    Закрыть заявку
-                </button>
+                {% if request_object.status != 'closed' %}
+                    <form method="post" action="{% url 'close' %}">
+                        {% csrf_token %}
+                        <input type="submit" class="btn btn-outline-danger float-right" value="Закрыть заявку">
+                        <input hidden name="request_id" value={{ request_object.id }}>
+                        <input hidden name="current_url" value={{ request.path }}>
+                    </form>
+                {% endif %}
             </div>
         </div>
     </main>
