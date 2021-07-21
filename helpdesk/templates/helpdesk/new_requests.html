@@ -15,8 +15,6 @@
                                 <a href="/requests/{{ req.id }}/" type="button" class="btn btn-link">
                                     Заявка номер: {{ req.id|stringformat:"04d" }}
                                 </a>
-
-
                                 <div data-toggle="dropdown" class="btn btn-secondary dropdown-toggle float-right">Отделы
                                     <b class="caret "></b></div>
                                 <div class="dropdown-menu p-3">
@@ -32,6 +30,7 @@
                                         </div>
                                         <!-- department end -->
                                     {% endfor %}
+
                                     <input hidden name="request_id" value={{ req.id }}>
                                     <input type="submit" class="btn btn-outline-danger mt-2" value="Добавить отделы">
                                 </div>
