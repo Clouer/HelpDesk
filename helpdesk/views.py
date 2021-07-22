@@ -3,9 +3,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.views import View
 
-from helpdesk.forms import SignUpForm, CreateRequestForm
-from helpdesk.models import User, Request, Department
-from helpdesk.scripts import register_user, create_request, close_request
+from helpdesk.forms import SignUpForm, CreateRequestForm, CommentForm
+from helpdesk.models import User, Request, Department, Comment
+from helpdesk.scripts import register_user, create_request, close_request, create_comment
 
 
 class SignInView(LoginView):
@@ -115,10 +115,22 @@ class RequestPageView(View):
     def get(self, request, request_id):
         if request.user.is_anonymous:
             return redirect(reverse('login'))
+        comment_form = CommentForm()
         request_object = get_object_or_404(Request, pk=request_id)
+        comments = Comment.objects.filter(request=request_id)
         return render(request, 'helpdesk/request_page.html', context={
-            'request_object': request_object
+            'request_object': request_object,
+            'comments': comments,
+            'comment_form': comment_form
         })
+
+    def post(self, request, request_id):
+        comment_form = CommentForm(request.POST)
+        current_request = Request.objects.get(pk=request_id)
+        if comment_form.is_valid():
+            cleaned_form = comment_form.cleaned_data
+            create_comment(Comment, cleaned_form['message'], cleaned_form['owner'], current_request)
+            return redirect(f'/requests/{request_id}')
 
 
 class CreateRequestView(View):
@@ -145,3 +157,11 @@ class CloseRequestView(View):
         if not previous_page:
             return redirect(reverse('main'))
         return redirect(previous_page)
+
+
+class DeleteCommentView(View):
+    def post(self, request):
+        comment_id = request.POST['comment_id']
+        request_id = request.POST['request_id']
+        Comment.objects.get(pk=comment_id).delete()
+        return redirect(f'/requests/{request_id}/')

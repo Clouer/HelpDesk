@@ -19,3 +19,11 @@ def close_request(model, request_id):
     request = model.objects.get(pk=request_id)
     request.status = 'closed'
     request.save()
+
+
+def create_comment(model, message, owner_id, request_id):
+    model.objects.create(
+        message=message,
+        owner=owner_id,
+        request=request_id
+    )

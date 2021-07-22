@@ -1,6 +1,6 @@
 from django import forms
 
-from helpdesk.models import User, Request
+from helpdesk.models import User, Request, Comment
 
 
 class SignUpForm(forms.ModelForm):
@@ -13,3 +13,9 @@ class CreateRequestForm(forms.ModelForm):
     class Meta:
         model = Request
         fields = ['title', 'description', 'owner']
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['message', 'owner', 'request']

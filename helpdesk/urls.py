@@ -13,5 +13,6 @@ urlpatterns = [
     path('requests/support/', views.DepartmentRequestsView.as_view(), name='department_requests'),
     path('requests/<int:request_id>/', views.RequestPageView.as_view()),
     path('requests/create/', views.CreateRequestView.as_view(), name='create'),
-    path('request/close/', views.CloseRequestView.as_view(), name='close')
+    path('request/close/', views.CloseRequestView.as_view(), name='close'),
+    path('requests/comment/delete/', views.DeleteCommentView.as_view(), name='delete_comment')
 ]
